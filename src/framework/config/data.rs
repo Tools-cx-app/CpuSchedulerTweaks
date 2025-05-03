@@ -2,7 +2,8 @@ use std::collections::HashMap;
 
 use serde::Deserialize;
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct ConfigData {
-    applist: HashMap<String, String>,
+    pub osm: String,
+    pub applist: HashMap<String, String>,
 }

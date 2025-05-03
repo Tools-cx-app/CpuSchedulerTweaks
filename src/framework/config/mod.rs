@@ -1,10 +1,18 @@
-use std::fs;
+use std::{collections::HashMap, fs};
 
 use crate::defs;
 
 pub mod data;
 
 impl data::ConfigData {
+    pub fn new() -> Self {
+        let s = Self {
+            osm: String::new(),
+            applist: HashMap::new(),
+        };
+        s.load_config()
+    }
+
     pub fn load_config(&self) -> Self {
         if let Err(e) = fs::read_to_string(defs::CONFIG_PATH) {
             log::error!("无法读取配置文件:{},请检查{}", e, defs::CONFIG_PATH);
