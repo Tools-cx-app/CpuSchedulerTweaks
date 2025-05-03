@@ -1,10 +1,8 @@
 use std::{
     process::Command,
-    ptr::write,
     time::{Duration, Instant},
 };
 
-use anyhow::Context;
 use regex::Regex;
 
 const RESET_TIME: Duration = Duration::from_secs(1);
@@ -40,7 +38,8 @@ impl TopAppWatch {
                 }
             };
 
-            let re = Regex::new(r"  TOP  .*?([a-zA-Z][a-zA-Z0-9_]*(\.[a-zA-Z][a-zA-Z0-9_]*)+)").unwrap();
+            let re =
+                Regex::new(r"  TOP  .*?([a-zA-Z][a-zA-Z0-9_]*(\.[a-zA-Z][a-zA-Z0-9_]*)+)").unwrap();
             for line in output.lines() {
                 if let Some(caps) = re.captures(line) {
                     self.topapps = caps[1].to_string();
