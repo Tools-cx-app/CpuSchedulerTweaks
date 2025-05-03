@@ -34,7 +34,10 @@ fn main() -> Result<()> {
             .init()?;
     }
     check()?;
+    log::info!("life-death-scheduler v{}", defs::VERSION);
     log::info!("life-death-scheduler正在启动");
-    crate::framework::scheduler::Looper::new().init();
+    let mut framework = crate::framework::scheduler::Looper::new();
+    framework.init();
+    framework.enter_looper()?;
     Ok(())
 }
