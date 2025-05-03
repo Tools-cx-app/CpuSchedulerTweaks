@@ -1,7 +1,12 @@
 mod dump;
 
+use std::{
+    process::Command,
+};
+
 use anyhow::Result;
 use dump::topapps::TopAppWatch;
+use glob::glob;
 use inotify::{Inotify, WatchMask};
 
 use super::config::data::ConfigData;
@@ -30,7 +35,43 @@ impl Looper {
         }
     }
 
-    pub fn init(&mut self) -> Result<()> {
+    pub fn init(&self) {
+        let commands = vec![
+            ("stop", vec!["miuibooster"]),
+            ("stop", vec!["oneplus_brain_service"]),
+            ("stop", vec!["vendor.perfservice"]),
+            ("stop", vec!["perfd"]),
+            (
+                "stop",
+                vec!["orms-hal-1-0", "vendor.oplus.ormsHalService-aidl-default"],
+            ),
+            ("setprop", vec!["persist.sys.hardcoder.name", ""]),
+            ("setprop", vec!["persist.miui.miperf.enable", "false"]),
+        ];
+
+        for i in defs::BOOST_PATHS {
+            for path in glob(i).unwrap() {
+                let path = path.unwrap();
+                //let _ = write(&path, "0");
+                log::debug!("{}", path.display());
+            }
+        }
+        /* let _ = write(
+            "/sys/devices/system/cpu/cpufreq/hotplug/cpu_hotplug_disable",
+            "1",
+        );*/
+        for path in glob("/sys/module/control_center/parameters/*").unwrap() {
+            let path = path.unwrap();
+            //   let _ = write(&path, "N");
+            log::debug!("{}", path.display());
+        }
+
+        for (command, args) in commands {
+            let _ = Command::new(command).args(args).output();
+        }
+    }
+
+    pub fn enter_looper(&mut self) -> Result<()> {
         let mut inotify = Inotify::init()?;
         inotify.watches().add("/dev/input", WatchMask::ACCESS)?;
 
@@ -39,9 +80,18 @@ impl Looper {
             self.config.load_config();
             self.topapp.dump();
 
-            log::debug!("Current topapp: {}", self.topapp.get());
-            log::debug!("Current mode: {:?}", self.mode);
-            log::debug!("Current config: {:?}", self.config);
+            #[cfg(debug_assertions)]
+            {
+                log::debug!("Current topapp: {}", self.topapp.get());
+                log::debug!("Current mode: {:?}", self.mode);
+                log::debug!("Current config: {:?}", self.config);
+            }
+
+            for (app, mode) in self.config.applist.clone() {
+                if self.topapp.get() == app {
+                    log::info!("正在为{app}配置{mode}模式");
+                }
+            }
         }
     }
 }
