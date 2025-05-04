@@ -64,7 +64,7 @@ impl Looper {
         );
         for path in glob("/sys/module/control_center/parameters/*").unwrap() {
             let path = path.unwrap();
-            //   let _ = write(&path, "N");
+            let _ = write(&path, "N");
             log::debug!("{}", path.display());
         }
 
