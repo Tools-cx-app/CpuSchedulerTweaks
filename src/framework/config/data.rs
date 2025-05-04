@@ -15,9 +15,15 @@ pub struct ConfigData {
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct CpuFreq {
-    pub big_cpu_freq: u64,
-    pub middle_cpu_freq: u64,
-    pub small_cpu_freq: u64,
+    pub big_cpu_freq: FreqInfo,
+    pub middle_cpu_freq: FreqInfo,
+    pub small_cpu_freq: FreqInfo,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct FreqInfo {
+    pub max: u64,
+   pub  min: u64,
 }
 
 #[derive(Deserialize, Debug, Clone)]

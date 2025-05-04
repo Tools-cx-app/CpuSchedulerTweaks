@@ -1,6 +1,6 @@
 use std::{collections::HashMap, fs};
 
-use data::CpuFreq;
+use data::{CpuFreq, FreqInfo};
 
 use crate::defs;
 
@@ -10,24 +10,24 @@ impl data::ConfigData {
     pub fn new() -> Self {
         let s = Self {
             powersave: CpuFreq {
-                big_cpu_freq: 0,
-                middle_cpu_freq: 0,
-                small_cpu_freq: 0,
+                big_cpu_freq: FreqInfo { max: 0, min: 0 },
+                middle_cpu_freq: FreqInfo { max: 0, min: 0 },
+                small_cpu_freq: FreqInfo { max: 0, min: 0 },
             },
             balance: CpuFreq {
-                big_cpu_freq: 0,
-                middle_cpu_freq: 0,
-                small_cpu_freq: 0,
+                big_cpu_freq: FreqInfo { max: 0, min: 0 },
+                middle_cpu_freq: FreqInfo { max: 0, min: 0 },
+                small_cpu_freq: FreqInfo { max: 0, min: 0 },
             },
             performance: CpuFreq {
-                big_cpu_freq: 0,
-                middle_cpu_freq: 0,
-                small_cpu_freq: 0,
+                big_cpu_freq: FreqInfo { max: 0, min: 0 },
+                middle_cpu_freq: FreqInfo { max: 0, min: 0 },
+                small_cpu_freq: FreqInfo { max: 0, min: 0 },
             },
             fast: CpuFreq {
-                big_cpu_freq: 0,
-                middle_cpu_freq: 0,
-                small_cpu_freq: 0,
+                big_cpu_freq: FreqInfo { max: 0, min: 0 },
+                middle_cpu_freq: FreqInfo { max: 0, min: 0 },
+                small_cpu_freq: FreqInfo { max: 0, min: 0 },
             },
             cpu_config: data::Cpu {
                 big: 0,
