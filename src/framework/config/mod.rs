@@ -1,5 +1,7 @@
 use std::{collections::HashMap, fs};
 
+use data::CpuFreq;
+
 use crate::defs;
 
 pub mod data;
@@ -7,6 +9,31 @@ pub mod data;
 impl data::ConfigData {
     pub fn new() -> Self {
         let s = Self {
+            powersave: CpuFreq {
+                big_cpu_freq: 0,
+                middle_cpu_freq: 0,
+                small_cpu_freq: 0,
+            },
+            balance: CpuFreq {
+                big_cpu_freq: 0,
+                middle_cpu_freq: 0,
+                small_cpu_freq: 0,
+            },
+            performance: CpuFreq {
+                big_cpu_freq: 0,
+                middle_cpu_freq: 0,
+                small_cpu_freq: 0,
+            },
+            fast: CpuFreq {
+                big_cpu_freq: 0,
+                middle_cpu_freq: 0,
+                small_cpu_freq: 0,
+            },
+            cpu_config: data::Cpu {
+                big: 0,
+                middle: 0,
+                small: 0,
+            },
             osm: String::new(),
             applist: HashMap::new(),
         };
