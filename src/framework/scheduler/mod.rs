@@ -1,7 +1,7 @@
 mod cpu;
 mod dump;
 
-use std::process::Command;
+use std::{process::Command, fs::write};
 
 use anyhow::Result;
 use cpu::Cpu;
@@ -54,14 +54,14 @@ impl Looper {
         for i in defs::BOOST_PATHS {
             for path in glob(i).unwrap() {
                 let path = path.unwrap();
-                //let _ = write(&path, "0");
+                let _ = write(&path, "0");
                 log::debug!("{}", path.display());
             }
         }
-        /* let _ = write(
+        let _ = write(
             "/sys/devices/system/cpu/cpufreq/hotplug/cpu_hotplug_disable",
             "1",
-        );*/
+        );
         for path in glob("/sys/module/control_center/parameters/*").unwrap() {
             let path = path.unwrap();
             //   let _ = write(&path, "N");
