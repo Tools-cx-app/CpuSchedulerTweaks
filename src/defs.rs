@@ -1,5 +1,5 @@
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
-pub const CONFIG_PATH: &str = "/data/test.toml";
+pub const CONFIG_PATH: &str = "/data/adb/modules/life_death_scheduler/config.toml";
 pub const BOOST_PATHS: [&str; 49] = [
     "/sys/power/pnpmgr/touch_boost",
     "/sys/power/pnpmgr/long_duration_touch_boost",
