@@ -1,10 +1,10 @@
+mod cpu;
 mod dump;
 
-use std::{
-    process::Command,
-};
+use std::process::Command;
 
 use anyhow::Result;
+use cpu::Cpu;
 use dump::topapps::TopAppWatch;
 use glob::glob;
 use inotify::{Inotify, WatchMask};
@@ -21,6 +21,7 @@ pub enum Mode {
 }
 
 pub struct Looper {
+    cpu: Cpu,
     mode: Mode,
     config: ConfigData,
     topapp: TopAppWatch,
@@ -29,6 +30,7 @@ pub struct Looper {
 impl Looper {
     pub fn new() -> Self {
         Self {
+            cpu: Cpu::new(),
             mode: Mode::Balance,
             config: ConfigData::new(),
             topapp: TopAppWatch::new(),
@@ -78,6 +80,7 @@ impl Looper {
         loop {
             inotify.read_events_blocking(&mut [0; 1024])?;
             self.config.load_config();
+            self.cpu.load_config(self.config.clone());
             self.topapp.dump();
 
             #[cfg(debug_assertions)]
@@ -90,7 +93,24 @@ impl Looper {
             for (app, mode) in self.config.applist.clone() {
                 if self.topapp.get() == app {
                     log::info!("正在为{app}配置{mode}模式");
+                    self.cpu.set_freq(self.switch_mode(mode.as_str()));
+                } else {
+                    self.cpu
+                        .set_freq(self.switch_mode(self.config.osm.as_str()));
                 }
+            }
+        }
+    }
+
+    fn switch_mode(&self, mode: &str) -> Mode {
+        match mode {
+            "powersave" => Mode::Powersave,
+            "balance" => Mode::Balance,
+            "performance" => Mode::Performance,
+            "fast" => Mode::Fast,
+            _ => {
+                log::error!("配置文件错误,模式默认使用balance");
+                Mode::Balance
             }
         }
     }
