@@ -18,6 +18,7 @@ pub struct CpuFreq {
     pub big_cpu_freq: FreqInfo,
     pub middle_cpu_freq: FreqInfo,
     pub small_cpu_freq: FreqInfo,
+    pub super_big_cpu_freq: FreqInfo,
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -31,4 +32,5 @@ pub struct Cpu {
     pub big: u16,
     pub middle: u16,
     pub small: u16,
+    pub super_big: u16,
 }
