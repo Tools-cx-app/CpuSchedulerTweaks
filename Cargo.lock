@@ -283,7 +283,7 @@ checksum = "d750af042f7ef4f724306de029d18836c26c1765a54a6a3f094cbd23a7267ffa"
 
 [[package]]
 name = "life-death-scheduler"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "glob",
