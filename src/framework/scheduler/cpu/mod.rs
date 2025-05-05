@@ -1,3 +1,4 @@
+#![allow(unused_assignments)]
 use std::{
     fs::{Permissions, set_permissions, write},
     os::unix::fs::PermissionsExt,
@@ -59,27 +60,19 @@ impl Cpu {
             log::error!("CPU簇{}不存在", self.config.cpu_config.middle);
             return;
         }
-        if !small.exists() && !super_big.exists() {
-            log::error!(
-                "CPU簇{}和{}不存在",
-                self.config.cpu_config.small,
-                self.config.cpu_config.super_big
-            );
-            return;
-        } else if small.exists() && super_big.exists() {
-            has_super_big = true;
-            has_small_big = true;
-        } else if small.exists() && !super_big.exists() {
-            has_small_big = true;
-        } else if !small.exists() && super_big.exists() {
-            has_super_big = true;
-        }
+        has_super_big = super_big.exists();
+        has_small_big = small.exists();
 
         #[cfg(debug_assertions)]
         {
-            log::debug!("{}簇:{}", self.config.cpu_config.big, big.display());
-            log::debug!("{}簇:{}", self.config.cpu_config.middle, middle.display());
-            log::debug!("{}簇:{}", self.config.cpu_config.small, small.display());
+            for (name, path) in [
+                ("big", big),
+                ("middle", middle),
+                ("small", small),
+                ("super_big", super_big),
+            ] {
+                log::debug!("{}簇:{}", name, path.display());
+            }
         }
 
         let mut big_freq = Vec::new();
