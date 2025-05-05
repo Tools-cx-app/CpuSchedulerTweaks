@@ -43,6 +43,14 @@ impl Cpu {
         );
         let small = Path::new(small_path.as_str());
 
+        let super_big_path = format!(
+            "/sys/devices/system/cpu/cpufreq/policy{}",
+            self.config.cpu_config.super_big
+        );
+        let super_big = Path::new(super_big_path.as_str());
+        let mut has_super_big = false;
+        let mut has_small_big = false;
+
         if !big.exists() {
             log::error!("CPU簇{}不存在", self.config.cpu_config.big);
             return;
@@ -51,9 +59,20 @@ impl Cpu {
             log::error!("CPU簇{}不存在", self.config.cpu_config.middle);
             return;
         }
-        if !small.exists() {
-            log::error!("CPU簇{}不存在", self.config.cpu_config.small);
+        if !small.exists() && !super_big.exists() {
+            log::error!(
+                "CPU簇{}和{}不存在",
+                self.config.cpu_config.small,
+                self.config.cpu_config.super_big
+            );
             return;
+        } else if small.exists() && super_big.exists() {
+            has_super_big = true;
+            has_small_big = true;
+        } else if small.exists() && !super_big.exists() {
+            has_small_big = true;
+        } else if !small.exists() && super_big.exists() {
+            has_super_big = true;
         }
 
         #[cfg(debug_assertions)]
@@ -66,14 +85,21 @@ impl Cpu {
         let mut big_freq = Vec::new();
         let mut middle_freq = Vec::new();
         let mut small_freq = Vec::new();
+        let mut super_big_freq = Vec::new();
         match mode {
             Mode::Powersave => {
                 big_freq.insert(0, self.config.powersave.big_cpu_freq.max);
                 big_freq.insert(1, self.config.powersave.big_cpu_freq.min);
                 middle_freq.insert(0, self.config.powersave.middle_cpu_freq.max);
                 middle_freq.insert(1, self.config.powersave.middle_cpu_freq.min);
-                small_freq.insert(0, self.config.powersave.small_cpu_freq.max);
-                small_freq.insert(1, self.config.powersave.small_cpu_freq.min);
+                if has_small_big {
+                    small_freq.insert(0, self.config.powersave.small_cpu_freq.max);
+                    small_freq.insert(1, self.config.powersave.small_cpu_freq.min);
+                }
+                if has_super_big {
+                    super_big_freq.insert(0, self.config.powersave.super_big_cpu_freq.max);
+                    super_big_freq.insert(1, self.config.powersave.super_big_cpu_freq.min);
+                }
             }
             Mode::Balance => {
                 big_freq.insert(0, self.config.balance.big_cpu_freq.max);
@@ -82,6 +108,14 @@ impl Cpu {
                 middle_freq.insert(1, self.config.balance.middle_cpu_freq.min);
                 small_freq.insert(0, self.config.balance.small_cpu_freq.max);
                 small_freq.insert(1, self.config.balance.small_cpu_freq.min);
+                if has_small_big {
+                    small_freq.insert(0, self.config.balance.small_cpu_freq.max);
+                    small_freq.insert(1, self.config.balance.small_cpu_freq.min);
+                }
+                if has_super_big {
+                    super_big_freq.insert(0, self.config.balance.super_big_cpu_freq.max);
+                    super_big_freq.insert(1, self.config.balance.super_big_cpu_freq.min);
+                }
             }
             Mode::Performance => {
                 big_freq.insert(0, self.config.performance.big_cpu_freq.max);
@@ -90,6 +124,14 @@ impl Cpu {
                 middle_freq.insert(1, self.config.performance.middle_cpu_freq.min);
                 small_freq.insert(0, self.config.performance.small_cpu_freq.max);
                 small_freq.insert(1, self.config.performance.small_cpu_freq.min);
+                if has_small_big {
+                    small_freq.insert(0, self.config.performance.small_cpu_freq.max);
+                    small_freq.insert(1, self.config.performance.small_cpu_freq.min);
+                }
+                if has_super_big {
+                    super_big_freq.insert(0, self.config.performance.super_big_cpu_freq.max);
+                    super_big_freq.insert(1, self.config.performance.super_big_cpu_freq.min);
+                }
             }
             Mode::Fast => {
                 big_freq.insert(0, self.config.fast.big_cpu_freq.max);
@@ -98,11 +140,24 @@ impl Cpu {
                 middle_freq.insert(1, self.config.fast.middle_cpu_freq.min);
                 small_freq.insert(0, self.config.fast.small_cpu_freq.max);
                 small_freq.insert(1, self.config.fast.small_cpu_freq.min);
+                if has_small_big {
+                    small_freq.insert(0, self.config.fast.small_cpu_freq.max);
+                    small_freq.insert(1, self.config.fast.small_cpu_freq.min);
+                }
+                if has_super_big {
+                    super_big_freq.insert(0, self.config.fast.super_big_cpu_freq.max);
+                    super_big_freq.insert(1, self.config.fast.super_big_cpu_freq.min);
+                }
             }
         }
         let _ = self.write_freq(big, big_freq);
         let _ = self.write_freq(middle, middle_freq);
-        let _ = self.write_freq(small, small_freq);
+        if has_small_big {
+            let _ = self.write_freq(small, small_freq);
+        }
+        if has_super_big {
+            let _ = self.write_freq(super_big, super_big_freq);
+        }
     }
 
     fn write_freq(&self, path: &Path, freq: Vec<u64>) -> Result<()> {
