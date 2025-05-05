@@ -68,35 +68,35 @@ impl Cpu {
         let mut small_freq = Vec::new();
         match mode {
             Mode::Powersave => {
-                big_freq.insert(0,self.config.powersave.big_cpu_freq.max);
+                big_freq.insert(0, self.config.powersave.big_cpu_freq.max);
                 big_freq.insert(1, self.config.powersave.big_cpu_freq.min);
-                middle_freq.insert(0,self.config.powersave.middle_cpu_freq.max);
+                middle_freq.insert(0, self.config.powersave.middle_cpu_freq.max);
                 middle_freq.insert(1, self.config.powersave.middle_cpu_freq.min);
-                small_freq.insert(0,self.config.powersave.small_cpu_freq.max);
+                small_freq.insert(0, self.config.powersave.small_cpu_freq.max);
                 small_freq.insert(1, self.config.powersave.small_cpu_freq.min);
             }
             Mode::Balance => {
-                big_freq.insert(0,self.config.balance.big_cpu_freq.max);
+                big_freq.insert(0, self.config.balance.big_cpu_freq.max);
                 big_freq.insert(1, self.config.balance.big_cpu_freq.min);
-                middle_freq.insert(0,self.config.balance.middle_cpu_freq.max);
+                middle_freq.insert(0, self.config.balance.middle_cpu_freq.max);
                 middle_freq.insert(1, self.config.balance.middle_cpu_freq.min);
-                small_freq.insert(0,self.config.balance.small_cpu_freq.max);
+                small_freq.insert(0, self.config.balance.small_cpu_freq.max);
                 small_freq.insert(1, self.config.balance.small_cpu_freq.min);
             }
             Mode::Performance => {
-                big_freq.insert(0,self.config.performance.big_cpu_freq.max);
+                big_freq.insert(0, self.config.performance.big_cpu_freq.max);
                 big_freq.insert(1, self.config.performance.big_cpu_freq.min);
-                middle_freq.insert(0,self.config.performance.middle_cpu_freq.max);
+                middle_freq.insert(0, self.config.performance.middle_cpu_freq.max);
                 middle_freq.insert(1, self.config.performance.middle_cpu_freq.min);
-                small_freq.insert(0,self.config.performance.small_cpu_freq.max);
+                small_freq.insert(0, self.config.performance.small_cpu_freq.max);
                 small_freq.insert(1, self.config.performance.small_cpu_freq.min);
             }
             Mode::Fast => {
-                big_freq.insert(0,self.config.fast.big_cpu_freq.max);
+                big_freq.insert(0, self.config.fast.big_cpu_freq.max);
                 big_freq.insert(1, self.config.fast.big_cpu_freq.min);
-                middle_freq.insert(0,self.config.fast.middle_cpu_freq.max);
+                middle_freq.insert(0, self.config.fast.middle_cpu_freq.max);
                 middle_freq.insert(1, self.config.fast.middle_cpu_freq.min);
-                small_freq.insert(0,self.config.fast.small_cpu_freq.max);
+                small_freq.insert(0, self.config.fast.small_cpu_freq.max);
                 small_freq.insert(1, self.config.fast.small_cpu_freq.min);
             }
         }
