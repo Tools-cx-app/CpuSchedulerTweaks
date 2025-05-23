@@ -154,8 +154,8 @@ impl Cpu {
     }
 
     fn write_freq(&self, path: &Path, freq: Vec<u64>) -> Result<()> {
-        let max = &path.join("/sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq");
-        let min = &path.join("/sys/devices/system/cpu/cpufreq/policy4/scaling_min_freq");
+        let max = &path.join("/scaling_max_freq");
+        let min = &path.join("/scaling_min_freq");
         set_permissions(max, Permissions::from_mode(0o644)).context("无法设置权限")?;
         write(max, freq[0].to_string()).context("无法写入文件")?;
         set_permissions(max, Permissions::from_mode(0o400)).context("无法设置权限")?;
