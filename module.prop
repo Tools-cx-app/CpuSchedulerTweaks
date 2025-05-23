@@ -1,7 +1,7 @@
 # id 只能填 字母 数字 半角符号
 id=life_death_scheduler
 name=life-death-scheduler
-version=1.0.0
-versionCode=1.0.0
+version=1.1.0
+versionCode=1.1.0
 author=生于生时，亡于亡刻
 description=适用于大部分设备的CPU动态调速器，反馈群687235389
