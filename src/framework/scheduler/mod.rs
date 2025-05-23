@@ -37,6 +37,10 @@ impl Looper {
         }
     }
 
+    /*
+     * 初始化部分，用于禁用一些系统东西
+     * 2025-05-24
+     */
     pub fn init(&self) {
         let commands = vec![
             ("stop", vec!["miuibooster"]),
@@ -85,9 +89,9 @@ impl Looper {
 
             #[cfg(debug_assertions)]
             {
-                log::debug!("Current topapp: {}", self.topapp.get());
-                log::debug!("Current mode: {:?}", self.mode);
-                log::debug!("Current config: {:?}", self.config);
+                log::debug!("当前topapp: {}", self.topapp.get());
+                log::debug!("当前mode: {:?}", self.mode);
+                log::debug!("当前config: {:?}", self.config);
             }
 
             for (app, mode) in self.config.applist.clone() {
@@ -109,8 +113,8 @@ impl Looper {
             "performance" => Mode::Performance,
             "fast" => Mode::Fast,
             _ => {
-                log::error!("配置文件错误,模式默认使用balance");
-                Mode::Balance
+                log::error!("配置文件错误,进程退出");
+                std::process::exit(1);
             }
         }
     }
