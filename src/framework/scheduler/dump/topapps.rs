@@ -3,9 +3,8 @@ use std::{
     time::{Duration, Instant},
 };
 
+use crate::defs::RESET_TIME;
 use regex::Regex;
-
-const RESET_TIME: Duration = Duration::from_secs(1);
 
 #[derive(Debug, Clone)]
 pub struct TopAppWatch {
@@ -21,6 +20,10 @@ impl TopAppWatch {
         }
     }
 
+    /*
+     * 使用dumpsys activity 无法获取前台
+     * 2025-05-24
+     */
     pub fn dump(&mut self) {
         if self.time.elapsed() > RESET_TIME {
             let output = loop {
