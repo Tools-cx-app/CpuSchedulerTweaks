@@ -43,16 +43,16 @@ osm = "powersave"
 [cpu_config]
 big = 7
 middle = 4
-small = 0
-super_big = 9
+small = 0 # small可选，如果有
+super_big = 9 # super_big可选，如果有
 ```
 
 - **作用**：定义不同策略类型对应的 CPU 核心编号
 - **字段说明**：
   - `big`: 大核 CPU 编号上限（核心 0-7）
   - `middle`: 中核 CPU 编号上限（核心 0-4）
-  - `small`: 小核 CPU 编号上限（核心 0）
-  - `super_big`: 超大核 CPU 编号上限（核心 0-7）
+  - `small`: 小核 CPU 编号上限（核心 0），如果设置了，请在配置文件设置对应频率
+  - `super_big`: 超大核 CPU 编号上限（核心 0-7），如果设置了，请在配置文件设置对应频率
 
 ### 3. ⚡ 电源策略配置
 
@@ -60,7 +60,6 @@ super_big = 9
 
 ```toml
 [powersave]
-super_big_cpu_freq = { max = 2200000, min = 500000 }   # 🐢 2.2GHz ~ 0.5GHz
 big_cpu_freq = { max = 1800000, min = 500000 }   # 🐢 1.8GHz ~ 0.5GHz
 middle_cpu_freq = { max = 1600000, min = 500000 } # 🐢 1.6GHz ~ 0.5GHz
 small_cpu_freq = { max = 1400000, min = 500000 }  # 🐢 1.4GHz ~ 0.5GHz
@@ -70,7 +69,6 @@ small_cpu_freq = { max = 1400000, min = 500000 }  # 🐢 1.4GHz ~ 0.5GHz
 
 ```toml
 [balance]
-super_big_cpu_freq = { max = 2500000, min = 800000 }   # 🚶 2.5GHz ~ 0.8GHz
 big_cpu_freq = { max = 2200000, min = 800000 }   # 🚶 2.2GHz ~ 0.8GHz
 middle_cpu_freq = { max = 2000000, min = 800000 } # 🚶 2.0GHz ~ 0.8GHz
 small_cpu_freq = { max = 1800000, min = 800000 }  # 🚶 1.8GHz ~ 0.8GHz
@@ -80,7 +78,6 @@ small_cpu_freq = { max = 1800000, min = 800000 }  # 🚶 1.8GHz ~ 0.8GHz
 
 ```toml
 [performance]
-super_big_cpu_freq = { max = 3000000, min = 1200000 }   # 💨 3.0GHz ~ 1.2GHz
 big_cpu_freq = { max = 2800000, min = 1200000 }  # 💨 2.8GHz ~ 1.2GHz
 middle_cpu_freq = { max = 2500000, min = 1200000 } # 💨 2.5GHz ~ 1.2GHz
 small_cpu_freq = { max = 2200000, min = 1200000 } # 💨 2.2GHz ~ 1.2GHz
@@ -90,7 +87,6 @@ small_cpu_freq = { max = 2200000, min = 1200000 } # 💨 2.2GHz ~ 1.2GHz
 
 ```toml
 [fast]
-super_big_cpu_freq = { max = 3200000, min = 1500000 }   # 🚒 3.2GHz ~ 1.5GHz
 big_cpu_freq = { max = 3200000, min = 1500000 }  # 🚒 3.2GHz ~ 1.5GHz
 middle_cpu_freq = { max = 2800000, min = 1500000 } # 🚒 2.8GHz ~ 1.5GHz
 small_cpu_freq = { max = 2500000, min = 1500000 } # 🚒 2.5GHz ~ 1.5GHz
