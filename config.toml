@@ -9,21 +9,33 @@ small = 0
 big_cpu_freq = { max = 1800000, min = 500000 }
 middle_cpu_freq = { max = 1600000, min = 500000 }
 small_cpu_freq = { max = 1400000, min = 500000 }
+big_cpu_governor = "schedutil"
+middle_cpu_governor = "schedutil"
+small_cpu_governor = "schedutil"
 
 [balance]
 big_cpu_freq = { max = 2200000, min = 800000 }
 middle_cpu_freq = { max = 2000000, min = 800000 }
 small_cpu_freq = { max = 1800000, min = 800000 }
+big_cpu_governor = "schedutil"
+middle_cpu_governor = "schedutil"
+small_cpu_governor = "schedutil"
 
 [performance]
 big_cpu_freq = { max = 2800000, min = 1200000 }
 middle_cpu_freq = { max = 2500000, min = 1200000 }
 small_cpu_freq = { max = 2200000, min = 1200000 }
+big_cpu_governor = "schedutil"
+middle_cpu_governor = "schedutil"
+small_cpu_governor = "schedutil"
 
 [fast]
 big_cpu_freq = { max = 3200000, min = 1500000 }
 middle_cpu_freq = { max = 2800000, min = 1500000 }
 small_cpu_freq = { max = 2500000, min = 1500000 }
+big_cpu_governor = "schedutil"
+middle_cpu_governor = "schedutil"
+small_cpu_governor = "schedutil"
 
 [applist]
 "bin.mt.plus" = "powersave"
