@@ -10,7 +10,13 @@ fn check() -> Result<()> {
     let self_name = fs::read_to_string("/proc/self/comm")?;
 
     for proc in procs {
-        let proc = proc.context("无法获取进程信息")?;
+        let proc = match proc {
+            Ok(p) => p,
+            Err(e) => {
+                log::error!("无法获取进程信息:{}", e);
+                break;
+            }
+        };
         if let Ok(states) = proc.status() {
             if states.name.contains(self_name.trim()) && states.pid != std::process::id() as i32 {
                 log::error!("发现其他进程,pid:{},即将退出", states.pid);
