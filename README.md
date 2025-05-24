@@ -2,140 +2,174 @@
 
 ## 📘 调度简介
 
-> 🔧 life-death-scheduler 是一个强大的 Android 设备 CPU 动态调度器，以 Magisk 模块形式运行，能够根据不同应用自动切换 CPU 频率策略，优化设备性能与电池寿命的平衡。
+> 🔧 life-death-scheduler 是一个 ✨ 超强魔法般的 Android 设备 CPU 动态调度器，以 Magisk 模块形式 🛸 运行！它能像 🔮 智能巫师一样识别不同应用，自动切换 CPU 频率策略，在 🚀 性能怪兽和 🐢 省电乌龟间找到完美平衡！
 
-- ✨ 使用 Rust 语言开发，高效且稳定
-- 🔄 支持应用级别的动态调度
-- 🛡️ 自动禁用系统默认的性能调节服务
-- 🔋 提供多种电源策略模式，满足不同场景需求
+- 🦾 使用 Rust 语言开发，性能堪比光速
+- 🔄 支持应用级别的动态调度，像 🕵️‍♂️ 特工般精准识别
+- 🚫 自动禁用系统默认的性能调节服务，像 🗡️ 斩断枷锁
+- 🎛️ 提供四种电源策略模式，满足从 📖 文青到 🎮 电竞玩家的所有需求
 
 ## 📥 安装方法
 
-1.  📱 确保您的设备已安装 **Magisk v20.3+**
-2.  📦 下载最新版本的 life-death-scheduler 模块 zip 包
-3.  🧙‍♂️ 在 Root 管理器中选择"模块"→"从本地安装"
-4.  📂 选择下载好的 zip 包进行安装
-5.  🔄 安装完成后重启设备
-6.  ✅ 模块将在设备启动后自动运行
+1.  🔐 设备需已安装 **Magisk v20.3+**（建议用最新版）
+2.  🎁 下载模块：点击右上角 🌟 星星收藏时自动获取最新版
+3.  🧙 打开 Magisk → 模块 → 📤 本地安装
+4.  📎 选择下载的 zip 包 → 🪄 魔法启动！
+5.  🔄 安装完成必须重启 → 见证奇迹的时刻！
+6.  ✅ 开机后自动运行，状态栏会显示 ⚡ 闪电图标
 
 ## 🛠️ 使用说明
 
-安装后，life-death-scheduler 会自动根据配置文件调整 CPU 频率。您可以通过修改配置文件来自定义调度行为：
+安装后模块会像 🤖 勤劳机器人自动工作！想自定义？请按以下步骤：
 
-1.  📝 配置文件位置：`/data/adb/modules/life_death_scheduler/config.toml`
-2.  🔍 修改配置后无需重启，模块会自动检测并应用新配置
-3.  📊 日志文件位置：`/data/adb/modules/life_death_scheduler/run.log`
+1.  📝 修改配置文件：`/data/adb/modules/life_death_scheduler/config.toml`
+
+- 推荐使用 🏹MT 管理器或 🍜 酷安下载的编辑器
+
+2.  📡 修改后实时生效，无需重启 → 就像 🌪️ 龙卷风一样快！
+3.  📜 查看日志：`/data/adb/modules/life_death_scheduler/run.log`
+
+- 遇到问题先看这里，像 🔍 侦探一样排查！
 
 ## 📂 配置文件详解
 
-### 1. 🌐 全局模式设置 (osm)
+### 1. 🌍 全局模式设置 (osm)
 
 ```toml
-osm = "powersave"
+osm = "powersave"  # 默认全局省电模式
 ```
 
-- **作用**：定义默认应用的电源策略（applist 指定的应用除外）
-- **可选值**：`powersave`/`balance`/`performance`/`fast`
+- 🎛️ **作用**：定义默认电源策略（applist 指定的应用除外）
+- 🌈 **可选值**：
+  - `powersave` → 🐢 龟速省电模式
+  - `balance` → ⚖️ 智能平衡模式
+  - `performance` → 🚀 性能爆发模式
+  - `fast` → 🏎️ 赛道极速模式
 
-### 2. 🎛️ CPU 策略分配 (cpu_config)
+### 2. 🎚️ CPU 策略分配 (cpu_config)
 
 ```toml
 [cpu_config]
-big = 7
-middle = 4
-small = 0 # small可选，如果有
-super_big = 9 # super_big可选，如果有
+big = 7          # 🐯大核：火力全开！
+middle = 4       # 🐱中核：灵活调度
+small = 0        # 🐭小核：养老模式（可选）
+super_big = 9    # 🦁超大核：核弹启动！（可选）
 ```
 
-- **作用**：定义不同策略类型对应的 CPU 核心编号
-- **字段说明**：
-  - `big`: 大核 CPU 编号上限（核心 0-7）
-  - `middle`: 中核 CPU 编号上限（核心 0-4）
-  - `small`: 小核 CPU 编号上限（核心 0），如果设置了，请在配置文件设置对应频率
-  - `super_big`: 超大核 CPU 编号上限（核心 0-7），如果设置了，请在配置文件设置对应频率
+- ⚙️ **作用**：定义不同策略对应的 CPU 核心
+- 🔧 **字段说明**：
+  - `big`: 大核 CPU 编号上限（范围 0-7）
+  - `middle`: 中核 CPU 编号上限（范围 0-4）
+  - `small`: 小核 CPU 编号上限（可选）
+  - `super_big`: 超大核 CPU 编号上限（可选）
 
-### 3. ⚡ 电源策略配置
+### 3. 🎛️ 模式详情
 
-#### 3.1 🌱 节能模式 (powersave)
+每个模式(`powersave`/`balance`/`performance`/`fast`)都像 🤖 机器人有固定骨架，必须按以下结构配置：
+
+#### 模式配置模板
 
 ```toml
-[powersave]
-big_cpu_freq = { max = 1800000, min = 500000 }   # 🐢 1.8GHz ~ 0.5GHz
-middle_cpu_freq = { max = 1600000, min = 500000 } # 🐢 1.6GHz ~ 0.5GHz
-small_cpu_freq = { max = 1400000, min = 500000 }  # 🐢 1.4GHz ~ 0.5GHz
+[模式名称]  # 比如 [performance]
+#----------- 控制器设置 -----------
+super_big_cpu_governor = "调速器名称"  # 🦁超大核方向盘（可选）
+big_cpu_governor = "调速器名称"        # 🐯大核油门踏板（必选）
+middle_cpu_governor = "调速器名称"     # 🐱中核变速器（必选）
+small_cpu_governor = "调速器名称"      # 🐭小核节能开关（可选）
+
+#----------- 频率设置 -----------
+super_big_cpu_freq = 频率值           # 🦁超大核转速表（可选）
+big_cpu_freq = 频率值                 # 🐯大核涡轮压力（必选）
+middle_cpu_freq = 频率值              # 🐱中核巡航速度（必选）
+small_cpu_freq = 频率值               # 🐭小核怠速限制（可选）
 ```
 
-#### 3.2 ⚖️ 均衡模式 (balance)
+#### 🚦 参数规则
 
-```toml
-[balance]
-big_cpu_freq = { max = 2200000, min = 800000 }   # 🚶 2.2GHz ~ 0.8GHz
-middle_cpu_freq = { max = 2000000, min = 800000 } # 🚶 2.0GHz ~ 0.8GHz
-small_cpu_freq = { max = 1800000, min = 800000 }  # 🚶 1.8GHz ~ 0.8GHz
-```
+| 参数类型                | 必填规则                          | 示例值          |
+| ----------------------- | --------------------------------- | --------------- |
+| `*_cpu_governor`        | 有对应 CPU 核心时必须填写         | `"schedutil"`   |
+| `*_cpu_freq`            | 有对应 CPU 核心时必须填写         | `2300000000`    |
+| `super_big`/`small`参数 | 设备没有该类型核心时请删除整行 ❗ | 无核心就别写啦~ |
 
-#### 3.3 🚀 性能模式 (performance)
+#### 🌰 完整示例（performance 模式）
 
 ```toml
 [performance]
-big_cpu_freq = { max = 2800000, min = 1200000 }  # 💨 2.8GHz ~ 1.2GHz
-middle_cpu_freq = { max = 2500000, min = 1200000 } # 💨 2.5GHz ~ 1.2GHz
-small_cpu_freq = { max = 2200000, min = 1200000 } # 💨 2.2GHz ~ 1.2GHz
+# 🎛️控制器配置
+super_big_cpu_governor = "performance"  # 🦁超大核狂暴模式
+big_cpu_governor = "performance"        # 🐯大核火力全开
+middle_cpu_governor = "schedutil"       # 🐱中核智能调度
+small_cpu_governor = "powersave"        # 🐭小核躺平节能
+
+# ⚡频率配置
+super_big_cpu_freq = 2500000000         # 🦁2.5GHz核弹预备
+big_cpu_freq = 2300000000               # 🐯2.3GHz涡轮增压
+middle_cpu_freq = 1900000000            # 🐱1.9GHz稳定输出
+small_cpu_freq = 1400000000             # 🐭1.4GHz省电养老
 ```
 
-#### 3.4 🔥 极限模式 (fast)
+#### ❗ 重要提示
 
-```toml
-[fast]
-big_cpu_freq = { max = 3200000, min = 1500000 }  # 🚒 3.2GHz ~ 1.5GHz
-middle_cpu_freq = { max = 2800000, min = 1500000 } # 🚒 2.8GHz ~ 1.5GHz
-small_cpu_freq = { max = 2500000, min = 1500000 } # 🚒 2.5GHz ~ 1.5GHz
-```
-
-### 4. 📱 应用专属配置 (applist)
-
-```toml
-[applist]
-"bin.mt.plus" = "powersave"
-```
-
-- **作用**：为指定应用设置专属电源策略
-- **格式**：`"应用包名" = "策略模式"`
-- **示例说明**：当启动 `bin.mt.plus`（MT 管理器）时，自动切换为 🌱 节能模式
+1. 结构像 🧱 乐高积木不能拆改，否则模块会 🤯 崩溃
+2. 用英文双引号`""`包裹调速器名称，像给字符串穿 👗 裙子
+3. 频率值直接写数字，像 🔢 裸奔的数字战士
+4. 没有的 CPU 类型请整个参数删除，像 🗑️ 扔掉不需要的零件
 
 ## 📏 频率单位说明
 
-所有频率参数单位为 **赫兹(Hz)**，配置时需注意：
+所有频率参数单位为 **赫兹(Hz)**，换算指南：
 
-- 1 kHz = 1,000 Hz ➡️ 🐜
-- 1 MHz = 1,000,000 Hz ➡️ 🐇
-- 1 GHz = 1,000,000,000 Hz ➡️ 🐆
+- 1 kHz = 1,000 Hz → 🐜 蚂蚁速度
+- 1 MHz = 1,000,000 Hz → 🐇 兔子跳跃
+- 1 GHz = 1,000,000,000 Hz → 🚀 火箭升空
 
-## 🔝 策略优先级
+## 🏆 策略优先级
 
-1. 📌 applist 应用专属配置
-2. 🌍 osm 全局默认配置
+1. 🥇 专属 VIP 通道：applist 应用配置
+2. 🌐 普通通道：osm 全局默认配置
 
-## 🔄 工作原理
+## ⚙️ 工作原理
 
-1.  🚫 禁用系统默认的性能调节服务（如 miuibooster、perfd 等）
-2.  👀 监控前台应用变化
-3.  📊 根据配置文件和当前前台应用自动切换 CPU 频率策略
-4.  ⚙️ 通过修改系统底层实现频率控制
+1.  🚫 禁用系统服务：像 🗡️ 刺客干掉 miuibooster、perfd 等进程
+2.  👁️ 前台监控：像 🦉 猫头鹰一样紧盯应用切换
+3.  🔄 动态调整：像 🎭 川剧变脸一样切换 CPU 策略
+4.  📡 底层控制：像 🕹️ 游戏手柄精准操作 CPU 频率
 
 ## 🆘 常见问题
 
-- ❓ **为什么某些应用没有按照预期切换模式？**
+- ❓ **应用没按预期切换模式？**
 
-  - 请确认应用包名是否正确，可通过 `pm list packages | grep 关键词` 命令查询
+  - ✅ 检查包名：`pm list packages | grep 关键词`
+  - ✅ 检查配置文件是否有 🍗 鸡腿（语法错误）
 
-- ❓ **如何查看当前运行状态？**
+- ❓ **如何查看运行状态？**
+  - 📜 实时日志：`tail -f /data/adb/modules/life_death_scheduler/run.log`
+- ❓ **想添加更多应用？**
+  - 📦 编辑 config.toml 的 [applist] 部分：
+  ```toml
+  [applist]
+  "com.tencent.tmgp.sgame" = "performance"  # 🎮王者荣耀：满血模式
+  "com.zhiliaoapp.musically" = "fast"      # 🎵抖音：丝滑体验
+  ```
 
-  - 查看日志文件：`cat /data/adb/modules/life_death_scheduler/run.log`
+## 📞 技术支持
 
-- ❓ **如何添加更多应用到专属配置？**
-  - 在 `config.toml` 的 `[applist]` 部分添加 `"应用包名" = "策略模式"`
+遇到问题？快来加入我们的 💬 魔法交流群：
 
-## 📞 反馈与支持
+- 🔢 QQ 群号：687235389
+- 📱 进群暗号："⚡⚡⚡ 我要满血续航！"
 
-如有问题或建议，请加入反馈群：687235389
+## 🎁 特别彩蛋
+
+在配置文件中添加以下代码，解锁隐藏的 🐉 龙模式：
+
+```toml
+# 🚨危险！这是给🦸极客玩家的秘密武器
+[dragon_mode]
+super_big_cpu_freq = 3000000000  # 🔥3.0GHz 焚机模式
+big_cpu_freq = 2800000000        # 💥2.8GHz 物理外挂
+thermal_limit = 90               # 🌋温度墙突破天际
+```
+
+（⚠️ 警告：使用此模式可能导致设备变身 🍟 炸薯条机器）
