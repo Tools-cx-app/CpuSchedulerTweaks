@@ -51,8 +51,8 @@ impl Looper {
                 "stop",
                 vec!["orms-hal-1-0", "vendor.oplus.ormsHalService-aidl-default"],
             ),
-            ("setprop", vec!["persist.sys.hardcoder.name", ""]),
-            ("setprop", vec!["persist.miui.miperf.enable", "false"]),
+            ("resetprop", vec!["persist.sys.hardcoder.name", ""]),
+            ("resetprop", vec!["persist.miui.miperf.enable", "false"]),
         ];
 
         for i in defs::BOOST_PATHS {
