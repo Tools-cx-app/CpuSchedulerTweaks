@@ -13,6 +13,12 @@ big_cpu_governor = "schedutil"
 middle_cpu_governor = "schedutil"
 small_cpu_governor = "schedutil"
 
+[powersave.cpuctl]
+# 顶层应用资源控制
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
+# 前台应用资源控制
+foreground = { shares = 0, uclamp = { max = 0, min = 0 } }
+
 [balance]
 big_cpu_freq = { max = 2200000, min = 800000 }
 middle_cpu_freq = { max = 2000000, min = 800000 }
@@ -20,6 +26,12 @@ small_cpu_freq = { max = 1800000, min = 800000 }
 big_cpu_governor = "schedutil"
 middle_cpu_governor = "schedutil"
 small_cpu_governor = "schedutil"
+
+[balance.cpuctl]
+# 顶层应用资源控制
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
+# 前台应用资源控制
+foreground = { shares = 0, uclamp = { max = 0, min = 0 } }
 
 [performance]
 big_cpu_freq = { max = 2800000, min = 1200000 }
@@ -29,6 +41,12 @@ big_cpu_governor = "schedutil"
 middle_cpu_governor = "schedutil"
 small_cpu_governor = "schedutil"
 
+[performance.cpuctl]
+# 顶层应用资源控制
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
+# 前台应用资源控制
+foreground = { shares = 0, uclamp = { max = 0, min = 0 } }
+
 [fast]
 big_cpu_freq = { max = 3200000, min = 1500000 }
 middle_cpu_freq = { max = 2800000, min = 1500000 }
@@ -37,5 +55,12 @@ big_cpu_governor = "schedutil"
 middle_cpu_governor = "schedutil"
 small_cpu_governor = "schedutil"
 
+[fast.cpuctl]
+# 顶层应用资源控制
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
+# 前台应用资源控制
+foreground = { shares = 0, uclamp = { max = 0, min = 0 } }
+
 [applist]
 "bin.mt.plus" = "powersave"
+
