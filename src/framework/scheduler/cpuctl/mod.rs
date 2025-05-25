@@ -1,6 +1,7 @@
 use std::{
     fs::{Permissions, set_permissions, write},
     os::unix::fs::PermissionsExt,
+    path::Path,
 };
 
 use anyhow::{Context, Result};
@@ -33,9 +34,10 @@ impl CpuCtl {
      * 2025-05-25
      */
     pub fn set_uclamp(&self, mode: Mode) -> Result<()> {
-        let top_app_uclamp_max = TOP_APP_CPUCTL.join("cpu.uclamp.max");
-        let top_app_uclamp_min = TOP_APP_CPUCTL.join("cpu.uclamp.min");
-        let top_app_shares = TOP_APP_CPUCTL.join("cpu.shares");
+    let top_app_cpuctl = Path::new(TOP_APP_CPUCTL);
+            let top_app_uclamp_max = top_app_cpuctl.join("cpu.uclamp.max");
+        let top_app_uclamp_min = top_app_cpuctl.join("cpu.uclamp.min");
+        let top_app_shares = top_app_cpuctl.join("cpu.shares");
 
         match mode {
             Mode::Powersave => {
