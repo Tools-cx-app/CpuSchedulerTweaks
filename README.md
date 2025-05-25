@@ -58,10 +58,10 @@ super_big = 9    # 🦁超大核：核弹启动！（可选）
 
 - ⚙️ **作用**：定义不同策略对应的 CPU 核心
 - 🔧 **字段说明**：
-  - `big`: 大核 CPU 编号上限（范围 0-7）
-  - `middle`: 中核 CPU 编号上限（范围 0-4）
-  - `small`: 小核 CPU 编号上限（可选）
-  - `super_big`: 超大核 CPU 编号上限（可选）
+  - `big`: 大核 CPU 编号起始（范围 0-7）
+  - `middle`: 中核 CPU 编号起始（范围 0-4）
+  - `small`: 小核 CPU 编号起始（可选）
+  - `super_big`: 超大核 CPU 编号起始（可选）
 
 ### 3. 🎛️ 模式详情
 
@@ -92,6 +92,30 @@ small_cpu_freq = 频率值               # 🐭小核怠速限制（可选）
 | `*_cpu_freq`            | 有对应 CPU 核心时必须填写         | `2300000000`    |
 | `super_big`/`small`参数 | 设备没有该类型核心时请删除整行 ❗ | 无核心就别写啦~ |
 
+#### CpuCtl 配置模板
+
+```toml
+[powersave.cpuctl]
+# 🎮大Boss应用资源控制（微信/游戏等）
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }  # 🔒禁止占用CPU大核，锁死性能闸门
+
+# 🖥️前台小秘书资源控制（当前操作的应用）
+foreground = { shares = 0, uclamp = { max = 0, min = 0 } }  # ✂️剪掉性能翅膀，强制节能模式
+```
+
+### 配置效果说明：
+
+- `shares = 0`：🗿 将应用 CPU 时间片权重设为最低值，相当于给应用戴上"缓速器"
+- `uclamp.max = 0`：🔋 限制任务最大 CPU 利用率到最低档（约 0-20%），像给油门踏板加装限位器
+- `uclamp.min = 0`：🌱 取消最低性能保障，允许系统彻底放飞自我降频，宛如给 CPU 穿上草鞋轻装出行
+
+### 组合技效果：
+
+当进入`powersave`模式时，系统会：  
+🐌 **双重枷锁**：前台和顶层应用被套上性能限制器，强制进入"低功耗囚笼"  
+🌌 **黑洞级节能**：所有任务只能在最低频率区间运行，CPU 像进入省电冬眠状态  
+🔋 **续航暴增**：适合长时间阅读/待机，电量消耗速度堪比树懒移动（但应用可能会卡成 PPT 哦~）
+
 #### 🌰 完整示例（performance 模式）
 
 ```toml
@@ -107,6 +131,11 @@ super_big_cpu_freq = 2500000000         # 🦁2.5GHz核弹预备
 big_cpu_freq = 2300000000               # 🐯2.3GHz涡轮增压
 middle_cpu_freq = 1900000000            # 🐱1.9GHz稳定输出
 small_cpu_freq = 1400000000             # 🐭1.4GHz省电养老
+
+# CpuCtl配置
+[performance.cpuctl]
+top_app = { shares = 100, uclamp = { max = 100, min = 0 } }
+foreground = { shares = 100, uclamp = { max = 100, min = 0 } }
 ```
 
 #### ❗ 重要提示
@@ -157,18 +186,6 @@ small_cpu_freq = 1400000000             # 🐭1.4GHz省电养老
 
 遇到问题？快来加入我们的 💬 魔法交流群：
 
-- 🔢 Telegram: https://t.me/+4qh_4BOWDTw3OTU1：
-
-## 🎁 特别彩蛋
-
-在配置文件中添加以下代码，解锁隐藏的 🐉 龙模式：
-
-```toml
-# 🚨危险！这是给🦸极客玩家的秘密武器
-[dragon_mode]
-super_big_cpu_freq = 3000000000  # 🔥3.0GHz 焚机模式
-big_cpu_freq = 2800000000        # 💥2.8GHz 物理外挂
-thermal_limit = 90               # 🌋温度墙突破天际
-```
+- 🔢 Telegram: https://t.me/+4qh_4BOWDTw3OTU1
 
 （⚠️ 警告：使用此模式可能导致设备变身 🍟 炸薯条机器）
