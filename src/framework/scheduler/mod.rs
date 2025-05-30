@@ -81,6 +81,10 @@ impl Looper {
         let mut inotify = Inotify::init()?;
         inotify.watches().add("/dev/input", WatchMask::ACCESS)?;
 
+        if self.config.binder {
+            BINDER.store(true, Ordering::SeqCst);
+        }
+
         loop {
             inotify.read_events_blocking(&mut [0; 1024])?;
             self.config.load_config();
