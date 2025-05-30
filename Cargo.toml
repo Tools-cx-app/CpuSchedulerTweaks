@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.98"
+dumpsys-rs = { git = "https://github.com/shadow3aaa/dumpsys-rs" }
 glob = "0.3.2"
 inotify = "0.11.0"
 log = "0.4.27"
