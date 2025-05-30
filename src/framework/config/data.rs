@@ -5,6 +5,7 @@ use serde::Deserialize;
 #[derive(Deserialize, Debug, Clone)]
 pub struct ConfigData {
     pub osm: String,
+    pub binder: bool,
     pub cpu_config: Cpu,
     pub powersave: CpuFreq,
     pub balance: CpuFreq,

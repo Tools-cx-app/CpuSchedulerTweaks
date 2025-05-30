@@ -41,6 +41,7 @@ impl data::ConfigData {
             },
             osm: String::new(),
             applist: HashMap::new(),
+            binder: false,
         };
         s.load_config()
     }
