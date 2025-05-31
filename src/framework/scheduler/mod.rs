@@ -87,7 +87,6 @@ impl Looper {
 
         loop {
             inotify.read_events_blocking(&mut [0; 1024])?;
-            self.config.load_config();
             self.cpu.load_config(self.config.clone());
             self.topapp.dump();
 
