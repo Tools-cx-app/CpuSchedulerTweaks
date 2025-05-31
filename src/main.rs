@@ -28,17 +28,10 @@ fn check() -> Result<()> {
 }
 
 fn main() -> Result<()> {
-    if cfg!(debug_assertions) {
-        simple_logger::SimpleLogger::new()
-            .with_local_timestamps()
-            .with_level(log::LevelFilter::Debug)
-            .init()?;
-    } else {
-        simple_logger::SimpleLogger::new()
-            .with_local_timestamps()
-            .with_level(log::LevelFilter::Info)
-            .init()?;
-    }
+    simple_logger::SimpleLogger::new()
+        .with_local_timestamps()
+        .with_level(log::LevelFilter::Debug)
+        .init()?;
     check()?;
     log::info!("life-death-scheduler v{}", defs::VERSION);
     log::info!("life-death-scheduler正在启动");
