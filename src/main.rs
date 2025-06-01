@@ -33,6 +33,10 @@ fn main() -> Result<()> {
         .with_level(log::LevelFilter::Debug)
         .init()?;
     check()?;
+    let _ = fs::write(
+        "/dev/cpuset/background/cgroup.procs",
+        std::process::id().to_string(),
+    );
     log::info!("life-death-scheduler v{}", defs::VERSION);
     log::info!("life-death-scheduler正在启动");
     let mut framework = crate::framework::scheduler::Looper::new();
