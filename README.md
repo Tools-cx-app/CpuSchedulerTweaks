@@ -1,164 +1,171 @@
-# Life-Death-Scheduler
 
-## 调度简介
+<div align="center">
 
-> Life-Death-Scheduler 是一个 Android 设备 CPU 动态调度器，以 Magisk 模块形式运行。它能识别不同应用并自动切换 CPU 频率策略，在性能和功耗间实现最佳平衡。
+# **life-death-scheduler**
 
-- 使用 Rust 语言开发，高性能实现
-- 支持应用级别的动态调度
-- 自动禁用系统默认的性能调节服务
-- 提供四种电源策略模式
+### Android CPU 智能调度器 - 生死之间的性能平衡
 
-## 安装方法
+[![Rust][rust-badge]][rust-url]
+[![Version][version-badge]][version-url]
+[![Release][release-badge]][release-url]
+[![Download][download-badge]][download-url]
+[![Telegram][telegram-badge]][telegram-url]
 
-1. 设备需已安装 **Magisk v20.3+**（推荐最新版）
-2. 下载模块
-3. Magisk → 模块 → 本地安装
-4. 选择模块 zip 文件
-5. 安装完成后必须重启设备
-6. 开机后自动运行
+</div>
 
-## 使用说明
+[rust-badge]: https://img.shields.io/badge/Language-Rust-orange.svg?style=for-the-badge&logo=rust
+[rust-url]: https://www.rust-lang.org/
+[version-badge]: https://img.shields.io/badge/Version-1.5.0-blue.svg?style=for-the-badge
+[version-url]: https://github.com/Tools-cx-app/life-death-scheduler/releases/latest
+[release-badge]: https://img.shields.io/github/v/release/Tools-cx-app/life-death-scheduler?style=for-the-badge&logo=rust
+[release-url]: https://github.com/Tools-cx-app/life-death-scheduler-release/releases/latest
+[download-badge]: https://img.shields.io/github/downloads/Tools-cx-app/life-death-scheduler/total?style=for-the-badge
+[download-url]: https://github.com/Tools-cx-app/life-death-scheduler-release/releases/latest
+[telegram-badge]: https://img.shields.io/badge/Group-blue?style=for-the-badge&logo=telegram&label=Telegram
+[telegram-url]: https://t.me/+4qh_4BOWDTw3OTU1
 
-模块安装后自动工作，自定义配置步骤：
+## **简介**
 
-1. 修改配置文件：`/data/adb/modules/life_death_scheduler/config.toml`
-2. 修改后实时生效，无需重启
-3. 查看运行日志：`/data/adb/modules/life_death_scheduler/run.log`
+> 在性能与功耗的生死边缘，寻找完美平衡。`Life-Death-Scheduler` 是一个高性能的 Android CPU 动态调度器，通过智能识别前台应用并实时调整 CPU 策略，在保证流畅体验的同时最大化电池续航
 
-## 配置文件详解
+- ### **什么是`life-death-scheduler`?**
 
-### 1. 全局模式设置 (osm)
+  - `life-death-scheduler`是运行在用户态的智能 CPU 调度器实现，基于 Rust 语言开发，具有极佳的性能和兼容性优势
+
+## **自定义(配置)**
+
+- ### **配置路径: `/data/adb/modules/life_death_scheduler/config.toml`**
+
+- ### **参数(`全局设置`)说明:**
+
+  - **osm**
+
+    - 类型: `字符串`
+    - `"powersave"`: 省电模式 \*
+    - `"balance"`: 平衡模式
+    - `"performance"`: 性能模式
+    - `"fast"`: 极速模式
+
+  - **binder**
+
+    - 类型: `bool`
+    - `true`: 使用 Binder 通信获取前台应用
+    - `false`: 使用命令行方式获取前台应用 \*
+
+  - **debug**
+
+    - 类型: `bool`
+    - `true`: 启用调试模式
+    - `false`: 关闭调试模式 \*
+
+  - `*`: 默认配置
+
+- ### **CPU 核心配置(`cpu_config`)说明:**
+
+  - **`big` = `核心编号`**
+
+    - `big`: 大核起始编号
+    - `middle`: 中核起始编号
+    - `small`: 小核起始编号(可选)
+
+- ### **应用列表(`applist`)说明:**
+
+  - **`"package"` = `"mode"`**
+
+    - `package`: 字符串，应用包名
+    - `mode`: 字符串，该应用使用的性能模式，`life-death-scheduler`会在检测到该应用时自动切换到对应模式
+
+- ### **模式(`powersave` / `balance` / `performance` / `fast`)说明:**
+
+  - #### **模式切换:**
+
+    - 通过修改配置文件中的 `osm` 参数切换全局默认模式
+    - 应用专属配置在 `applist` 中设置，优先级高于全局模式
+
+  - #### **模式参数说明:**
+
+    - **freqs:**
+      - 支持格式: `cpu_type = { max = <频率>, min = <频率> }`
+      - 解释: 设置对应 CPU 核心的最大和最小频率限制(单位: Hz)
+
+    - **governor:**
+
+      - 类型: `字符串`
+      - 常用值: `"schedutil"`, `"performance"`, `"powersave"`, `"ondemand"`
+      - 解释: 设置 CPU 调速器策略
+
+    - **cpuctl:**
+
+      - 格式: `top_app = { shares = <数值>, uclamp = { max = <数值>, min = <数值> } }`
+      - 解释: 设置 CPU 控制组参数，控制应用的 CPU 资源分配
+
+### **`config.toml`配置标准例:**
 
 ```toml
-osm = "powersave"  # 默认全局省电模式
-```
+osm = "balance"
+binder = false
+debug = false
 
-**可选值**：
-
-- `powersave`：省电模式
-- `balance`：平衡模式
-- `performance`：性能模式
-- `fast`：极致性能模式
-
-### 2. Debug 模式设置
-
-```toml
-debug = false  # 默认关闭
-```
-
-### 3. Binder 设置
-
-```toml
-binder = false  # 默认使用命令行获取前台应用
-```
-
-### 4. CPU 策略分配
-
-```toml
 [cpu_config]
-big = 7          # 大核起始编号
-middle = 4       # 中核起始编号
-small = 0        # 小核起始编号（可选）
-super_big = 9    # 超大核起始编号（可选）
-```
+big = 7
+middle = 4
+small = 0
 
-### 5. 模式配置模板
+[powersave.freqs]
+big_cpu = { max = 1800000, min = 500000 }
+middle_cpu = { max = 1600000, min = 500000 }
+small_cpu = { max = 1400000, min = 500000 }
 
-```toml
-[模式名称]  # 如 [performance]
-#----------- 控制器设置 -----------
-super_big_cpu_governor = "调速器名称"  # 超大核调速器（可选）
-big_cpu_governor = "调速器名称"        # 大核调速器（必选）
-middle_cpu_governor = "调速器名称"     # 中核调速器（必选）
-small_cpu_governor = "调速器名称"      # 小核调速器（可选）
+[powersave.governor]
+big_cpu = "schedutil"
+middle_cpu = "schedutil"
+small_cpu = "schedutil"
 
-#----------- 频率设置 -----------
-super_big_cpu_freq = 频率值           # 超大核频率（可选）
-big_cpu_freq = 频率值                 # 大核频率（必选）
-middle_cpu_freq = 频率值              # 中核频率（必选）
-small_cpu_freq = 频率值               # 小核频率（可选）
+[powersave.cpuctl]
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
 
-#----------- CpuCtl 配置 -----------
-[模式名称.cpuctl]
-top_app = { shares = 数值, uclamp = { max = 数值, min = 数值 } }
-foreground = { shares = 数值, uclamp = { max = 数值, min = 数值 } }
-```
+[balance.freqs]
+big_cpu = { max = 2200000, min = 800000 }
+middle_cpu = { max = 2000000, min = 800000 }
+small_cpu = { max = 1800000, min = 800000 }
 
-### 配置说明：
+[balance.governor]
+big_cpu = "schedutil"
+middle_cpu = "schedutil"
+small_cpu = "schedutil"
 
-**CpuCtl 参数效果**：
+[balance.cpuctl]
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
 
-- `shares`：CPU 时间片分配权重
-- `uclamp.max`：最大 CPU 利用率限制
-- `uclamp.min`：最小 CPU 利用率保障
+[performance.freqs]
+big_cpu = { max = 2800000, min = 1200000 }
+middle_cpu = { max = 2500000, min = 1200000 }
+small_cpu = { max = 2200000, min = 1200000 }
 
-#### 完整配置示例（performance 模式）
-
-```toml
-[performance]
-super_big_cpu_governor = "performance"
-big_cpu_governor = "performance"
-middle_cpu_governor = "schedutil"
-small_cpu_governor = "powersave"
-
-super_big_cpu_freq = 2500000000
-big_cpu_freq = 2300000000
-middle_cpu_freq = 1900000000
-small_cpu_freq = 1400000000
+[performance.governor]
+big_cpu = "schedutil"
+middle_cpu = "schedutil"
+small_cpu = "schedutil"
 
 [performance.cpuctl]
-top_app = { shares = 100, uclamp = { max = 100, min = 0 } }
-foreground = { shares = 100, uclamp = { max = 100, min = 0 } }
-```
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
 
-### 配置规则：
+[fast.freqs]
+big_cpu = { max = 3200000, min = 1500000 }
+middle_cpu = { max = 2800000, min = 1500000 }
+small_cpu = { max = 2500000, min = 1500000 }
 
-1. 必须保持配置结构完整
-2. 调速器名称使用英文双引号包裹
-3. 频率值为整数（单位：Hz）
-4. 设备无对应 CPU 核心时删除相关配置项
+[fast.governor]
+big_cpu = "schedutil"
+middle_cpu = "schedutil"
+small_cpu = "schedutil"
 
-## 频率单位
+[fast.cpuctl]
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
 
-所有频率参数单位为 **赫兹(Hz)**：
-
-- 1 kHz = 1,000 Hz
-- 1 MHz = 1,000,000 Hz
-- 1 GHz = 1,000,000,000 Hz
-
-## 策略优先级
-
-1. applist 应用专属配置
-2. osm 全局默认配置
-
-## 工作原理
-
-1. 禁用系统原生性能服务
-2. 监控前台应用切换
-3. 动态调整 CPU 策略
-4. 通过内核接口控制 CPU 频率
-
-## 常见问题
-
-**应用未按预期切换模式？**
-
-- 检查包名：`pm list packages | grep 关键词`
-- 检查配置文件语法
-
-**查看运行状态**
-
-- `tail -f /data/adb/modules/life_death_scheduler/run.log`
-
-**添加自定义应用**
-
-```toml
 [applist]
-"com.tencent.tmgp.sgame" = "performance"  # 王者荣耀
-"com.zhiliaoapp.musically" = "fast"       # 抖音
+"bin.mt.plus" = "powersave"
+"com.tencent.tmgp.sgame" = "performance"
+"com.miHoYo.Yuanshen" = "fast"
+"com.zhiliaoapp.musically" = "balance"
 ```
-
-## 技术支持
-
-Telegram 群组：https://t.me/+4qh_4BOWDTw3OTU1
-l
