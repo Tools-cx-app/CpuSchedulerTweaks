@@ -3,7 +3,7 @@ SKIPUNZIP=0
 
 ui_print "欢迎使用life-death-scheduler"
 ui_print "此调度适用于大部分设备"
-ui_print "有问题请到687235389反馈"
+ui_print "有问题请到https://t.me/+4qh_4BOWDTw3OTU1反馈"
 
 sleep 0.3
 
