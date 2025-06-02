@@ -471,6 +471,7 @@ dependencies = [
  "env_logger",
  "glob",
  "inotify",
+ "libc",
  "log",
  "procfs",
  "regex",
