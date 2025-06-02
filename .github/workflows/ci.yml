@@ -50,11 +50,10 @@ jobs:
         run: |
           VERISON=$(git rev-list  --all --count)
           MSG="${COMMIT_MESSAGE}\n${VERISON}"
-          ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
+          ESCAPED=$(python3 -c 'import json,os; print(json.dumps(os.environ["MSG"]))')
           # 上传文件
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup" \
                -F "chat_id=${CHAT_ID}" \
                -F "message_thread_id=5" \
                -F "media=[{\"type\":\"document\",\"media\":\"attach://file\",\"parse_mode\":\"MarkdownV2\",\"caption\":\"${ESCAPED}\"}]" \
                -F "file=@life-death-scheduler.zip"
-
