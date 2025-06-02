@@ -49,8 +49,7 @@ jobs:
             ${{ github.event.head_commit.message }}
             ```by `${{ github.event.head_commit.author.name }}`
         run: |
-          VERISON=$(git rev-list --all --count)
-          MSG="${COMMIT_MESSAGE}\n Verison: ${VERISON}"
+          MSG="${COMMIT_MESSAGE}"
           ESCAPED=$(python3 -c 'import sys, re; msg = sys.argv[1]; msg = re.sub(r"([_*\[\]()~`>#+\-=|{}.!])", r"\\\1", msg); msg = msg.replace("\n", "\\n"); print(msg)' "$MSG")
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup" \
                -F "chat_id=${CHAT_ID}" \
