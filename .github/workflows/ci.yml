@@ -44,20 +44,7 @@ jobs:
           CHAT_ID: ${{ secrets.CHAT_ID }}
         run: |
           VERISON=$(git rev-list  --all --count)
-          MSG="*[${VERSION}] 构建成功！*
-          \n*Msg:*
-          \`\`\`
-          ${{ github.event.head_commit.message }}
-          \`\`\`"
-          
-          # 发送详细消息到Telegram
-          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
-            -d chat_id="${CHAT_ID}" \
-            -d text="${MSG}" \
-            -d message_thread_id="5" \
-            -d parse_mode="Markdown"
-            
           # 上传文件
           curl -s -F document=@"life-death-scheduler.zip" \
             "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument?chat_id=${CHAT_ID}&message_thread_id=5" \
-            -F caption="build成功"
+            -F caption="${VERSION}"
