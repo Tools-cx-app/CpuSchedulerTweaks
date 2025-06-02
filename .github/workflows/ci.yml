@@ -1,0 +1,55 @@
+name: ci-build
+on:
+  push:
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  build:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup ndk
+        run: |
+          ndk_url=$(wget -qO- https://github.com/android/ndk/releases/latest | grep -e 'https://dl.google.com/android/repository/android-ndk-.*-linux.zip' | sed -n 's/.*<a href="\([^"]*\)".*/\1/p')
+          wget -O ndk.zip $ndk_url -nv
+          mkdir -p ~/ndk_temp
+          unzip ndk.zip -d ~/ndk_temp 2>&1 > /dev/null
+          mv ~/ndk_temp/*/* ~/ndk_temp
+      - name: Setup rust toolchains
+        run: |
+          rustup default nightly
+          rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
+          rustup component add rust-src
+          rustup update
+      - name: Install cargo ndk
+        run: cargo install cargo-ndk
+      - name: Other deps
+        run: |
+          sudo apt update
+          sudo apt install gcc-multilib upx -y
+      - name: Build
+        run: |
+          export ANDROID_NDK_HOME=$(realpath ~/ndk_temp)
+          export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME
+          git clone https://github.com/Tools-cx-app/life-death-scheduler-release.git module
+          rm module/.git
+          cargo ndk build -t arm64-v8a -r
+          upx --lzma target/aarch64-linux-android/release/life-death-scheduler
+          cp target/aarch64-linux-android/release/life-death-scheduler module/
+          zip -r life-death-scheduler.zip module
+          rm ~/ndk_temp -rf
+      - name: Upload
+        env:
+          CHAT_ID: ${{ vars.CHAT_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          MESSAGE_THREAD_ID: ${{ vars.MESSAGE_THREAD_ID }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ ! -z "${{ secrets.BOT_TOKEN }}" ]; then
+            export VERSION=$(git rev-list --count HEAD)
+            pip3 install telethon
+            python3 .github/bot.py life-death-scheduler.zip
+          fi
