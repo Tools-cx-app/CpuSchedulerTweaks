@@ -22,7 +22,7 @@
 [download-badge]: https://img.shields.io/github/downloads/Tools-cx-app/life-death-scheduler/total?style=for-the-badge
 [download-url]: https://github.com/Tools-cx-app/life-death-scheduler-release/releases/latest
 [telegram-badge]: https://img.shields.io/badge/Group-blue?style=for-the-badge&logo=telegram&label=Telegram
-[telegram-url]: https://t.me/+4qh_4BOWDTw3OTU1
+[telegram-url]: https://t.me/ld_scheduler
 
 ## **简介**
 
