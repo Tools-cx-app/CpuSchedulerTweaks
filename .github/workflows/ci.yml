@@ -36,8 +36,9 @@ jobs:
           cargo ndk -t arm64-v8a build -r
           upx --lzma target/aarch64-linux-android/release/life-death-scheduler
           cp target/aarch64-linux-android/release/life-death-scheduler module/
+          rm -rf module/.git
           zip -r life-death-scheduler.zip module
-          rm ~/ndk_temp -rf
+          rm -rf ~/ndk_temp
       - name: Upload
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
@@ -48,7 +49,7 @@ jobs:
             ${{ github.event.head_commit.message }}
             ```by `${{ github.event.head_commit.author.name }}`
         run: |
-          VERISON=$(git rev-list  --all --count)
+          VERISON=$(git rev-list --all --count)
           MSG="${COMMIT_MESSAGE}\n Verison: ${VERISON}"
           ESCAPED=$(python3 -c 'import sys, re; msg = sys.argv[1]; msg = re.sub(r"([_*\[\]()~`>#+\-=|{}.!])", r"\\\1", msg); msg = msg.replace("\n", "\\n"); print(msg)' "$MSG")
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup" \
