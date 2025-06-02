@@ -52,4 +52,4 @@ jobs:
           MSG="${COMMIT_MESSAGE}\n${VERISON}"
           ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
           # 上传文件
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHAT_ID}&message_thread_id=5&media=[{\"type"\:\"document\",\"media\":\"attach://file\",\"parse_mode\":\"MarkdownV2\",\"caption\":${ESCAPED}}]" -F file=@"life-death-scheduler.zip"
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHAT_ID}&message_thread_id=5&media=[{\"type\":\"document\",\"media\":\"attach://file\",\"parse_mode\":\"MarkdownV2\",\"caption\":${ESCAPED}}]" -F file=@"life-death-scheduler.zip"
