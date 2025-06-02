@@ -33,7 +33,7 @@ jobs:
           export ANDROID_NDK_HOME=$(realpath ~/ndk_temp)
           export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME
           git clone https://github.com/Tools-cx-app/life-death-scheduler-release.git module
-          cargo ndk build -t arm64-v8a -r
+          cargo nd -t arm64-v8a build -r
           upx --lzma target/aarch64-linux-android/release/life-death-scheduler
           cp target/aarch64-linux-android/release/life-death-scheduler module/
           zip -r life-death-scheduler.zip module
