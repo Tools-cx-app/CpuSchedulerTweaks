@@ -19,7 +19,7 @@ jobs:
       - name: Setup rust toolchains
         run: |
           rustup default nightly
-          rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
+          rustup target add aarch64-linux-android
           rustup component add rust-src
           rustup update
       - name: Install cargo ndk
@@ -49,8 +49,8 @@ jobs:
             ```by `${{ github.event.head_commit.author.name }}`
         run: |
           VERISON=$(git rev-list  --all --count)
-          MSG="${COMMIT_MESSAGE}\n${VERISON}"
-          ESCAPED=$(python3 -c 'import json,os; print(json.dumps(os.environ["MSG"]))')
+          MSG="${COMMIT_MESSAGE}\nVerison: ${VERISON}"
+          ESCAPED=$(python3 -c 'import json, sys; print(json.dumps(sys.argv[1]))' "$MSG")
           # 上传文件
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup" \
                -F "chat_id=${CHAT_ID}" \
