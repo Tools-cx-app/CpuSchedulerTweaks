@@ -46,5 +46,5 @@ jobs:
           VERISON=$(git rev-list  --all --count)
           # 上传文件
           curl -s -F document=@"life-death-scheduler.zip" \
-            "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument?chat_id=${CHAT_ID}&message_thread_id=5" \
+            "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHAT_ID}&message_thread_id="5"" \
             -F caption="${VERSION}"
