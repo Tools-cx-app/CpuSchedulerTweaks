@@ -40,15 +40,24 @@ jobs:
           rm ~/ndk_temp -rf
       - name: Upload
         env:
-          CHAT_ID: ${{ vars.CHAT_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          MESSAGE_THREAD_ID: ${{ vars.MESSAGE_THREAD_ID }}
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          COMMIT_URL: ${{ github.event.head_commit.url }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
         run: |
-          if [ ! -z "${{ secrets.BOT_TOKEN }}" ]; then
-            export VERSION=$(git rev-list --count HEAD)
-            pip3 install telethon
-            python3 .github/bot.py life-death-scheduler.zip
-          fi
+          VERISON=$(git rev-list  --all --count)
+          MSG="*[${VERSION}] 构建成功！*
+          \n*Msg:*
+          \`\`\`
+          ${{ github.event.head_commit.message }}
+          \`\`\`"
+          
+          # 发送详细消息到Telegram
+          curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="${CHAT_ID}" \
+            -d text="${MSG}" \
+            -d message_thread_id="5" \
+            -d parse_mode="Markdown"
+            
+          # 上传文件
+          curl -s -F document=@"life-death-scheduler.zip" \
+            "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument?chat_id=${CHAT_ID}&message_thread_id=5" \
+            -F caption="build成功"
