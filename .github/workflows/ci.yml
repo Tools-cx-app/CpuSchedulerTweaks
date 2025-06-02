@@ -42,9 +42,14 @@ jobs:
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
+          COMMIT_MESSAGE: |+
+            New push to GitHub
+            ```
+            ${{ github.event.head_commit.message }}
+            ```by `${{ github.event.head_commit.author.name }}`
         run: |
           VERISON=$(git rev-list  --all --count)
+          MSG="${COMMIT_MESSAGE}\n${VERISON}"
+          ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
           # 上传文件
-          curl -s -F document=@"life-death-scheduler.zip" \
-            "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHAT_ID}&message_thread_id="5"" \
-            -F caption="${VERSION}"
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHAT_ID}&message_thread_id=5&media=[{\"type"\:\"document\",\"media\":\"attach://file\",\"parse_mode\":\"MarkdownV2\",\"caption\":${ESCAPED}}]" -F file=@"life-death-scheduler.zip"
