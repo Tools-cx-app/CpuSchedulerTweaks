@@ -37,7 +37,7 @@ jobs:
           cp target/aarch64-linux-android/release/life-death-scheduler module/
           rm -rf module/.git
           cd module/
-          zip -r life-death-scheduler.zip .
+          zip -r ../life-death-scheduler.zip .
           rm -rf ~/ndk_temp
       - name: Upload
         env:
