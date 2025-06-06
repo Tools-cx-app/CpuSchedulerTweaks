@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate VERSION
+        run: |
+          commit_count=$(git rev-list --count --all)
+          version=$((commit_count + 100))
+          echo $version > $GITHUB_ENV
       - name: Setup ndk
         run: |
           ndk_url=$(wget -qO- https://github.com/android/ndk/releases/latest | grep -e 'https://dl.google.com/android/repository/android-ndk-.*-linux.zip' | sed -n 's/.*<a href="\([^"]*\)".*/\1/p')
@@ -44,6 +51,7 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           COMMIT_MESSAGE: |+
+            Version $VERSION
             New push to GitHub
             ```
             ${{ github.event.head_commit.message }}
