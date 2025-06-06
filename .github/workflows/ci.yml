@@ -36,7 +36,8 @@ jobs:
           cargo ndk -t arm64-v8a build -r
           cp target/aarch64-linux-android/release/life-death-scheduler module/
           rm -rf module/.git
-          zip -r life-death-scheduler.zip module
+          cd module/
+          zip -r life-death-scheduler.zip .
           rm -rf ~/ndk_temp
       - name: Upload
         env:
