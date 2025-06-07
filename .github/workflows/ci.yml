@@ -16,6 +16,7 @@ jobs:
           commit_count=$(git rev-list --count --all)
           version=$((commit_count + 100))
           echo VERSION=$version > $GITHUB_ENV
+          echo COMMIT=$commit_count > $GITHUB_ENV
       - name: Setup ndk
         run: |
           ndk_url=$(wget -qO- https://github.com/android/ndk/releases/latest | grep -e 'https://dl.google.com/android/repository/android-ndk-.*-linux.zip' | sed -n 's/.*<a href="\([^"]*\)".*/\1/p')
@@ -51,7 +52,8 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           COMMIT_MESSAGE: |+
-            Commits: ${{ env.VERSION }}
+            Commits: ${{ env.COMMIT }}
+            Version: ${{ env.VERSION }}
             New push to GitHub
             ```
             ${{ github.event.head_commit.message }}
