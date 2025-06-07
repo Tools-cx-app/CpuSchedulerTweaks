@@ -51,7 +51,7 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           COMMIT_MESSAGE: |+
-            Version ${{ env.VERSION }}
+            Commits: ${{ env.VERSION }}
             New push to GitHub
             ```
             ${{ github.event.head_commit.message }}
