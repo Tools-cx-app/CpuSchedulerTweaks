@@ -1,5 +1,5 @@
 [package]
-name = "life-death-scheduler"
+name = "CpuSchedulerTweaks"
 version = "1.6.0"
 edition = "2024"
 

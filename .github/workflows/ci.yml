@@ -40,12 +40,12 @@ jobs:
         run: |
           export ANDROID_NDK_HOME=$(realpath ~/ndk_temp)
           export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME
-          git clone https://github.com/Tools-cx-app/life-death-scheduler-release.git module
+          git clone https://github.com/Tools-cx-app/CpuSchedulerTweaks.git module
           cargo ndk -t arm64-v8a build -r
-          cp target/aarch64-linux-android/release/life-death-scheduler module/
+          cp target/aarch64-linux-android/release/CpuSchedulerTweaks module/
           rm -rf module/.git
           cd module/
-          zip -r ../life-death-scheduler.zip .
+          zip -r ../CpuSchedulerTweaks.zip .
           rm -rf ~/ndk_temp
       - name: Upload
         env:
@@ -65,4 +65,4 @@ jobs:
                -F "chat_id=${CHAT_ID}" \
                -F "message_thread_id=5" \
                -F "media=[{\"type\":\"document\",\"media\":\"attach://file\",\"parse_mode\":\"MarkdownV2\",\"caption\":\"${ESCAPED}\"}]" \
-               -F "file=@life-death-scheduler.zip"
+               -F "file=@CpuSchedulerTweaks.zip"

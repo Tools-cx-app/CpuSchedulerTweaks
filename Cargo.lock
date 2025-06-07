@@ -3,6 +3,24 @@
 version = 4
 
 [[package]]
+name = "CpuSchedulerTweaks"
+version = "1.6.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "dumpsys-rs",
+ "env_logger",
+ "glob",
+ "inotify",
+ "libc",
+ "log",
+ "procfs",
+ "regex",
+ "serde",
+ "toml",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -459,24 +477,6 @@ checksum = "07033963ba89ebaf1584d767badaa2e8fcec21aedea6b8c0346d487d49c28667"
 dependencies = [
  "cfg-if",
  "windows-targets",
-]
-
-[[package]]
-name = "life-death-scheduler"
-version = "1.6.0"
-dependencies = [
- "anyhow",
- "chrono",
- "dumpsys-rs",
- "env_logger",
- "glob",
- "inotify",
- "libc",
- "log",
- "procfs",
- "regex",
- "serde",
- "toml",
 ]
 
 [[package]]
