@@ -1,7 +1,25 @@
 [package]
-name = "life-death-scheduler"
-version = "0.1.0"
+name = "CpuSchedulerTweaks"
+version = "1.6.0"
 edition = "2024"
 
 [dependencies]
+anyhow = "1.0.98"
+chrono = "0.4.41"
+dumpsys-rs = { git = "https://github.com/shadow3aaa/dumpsys-rs" }
+env_logger = "0.11.8"
+glob = "0.3.2"
 inotify = "0.11.0"
+libc = "0.2.172"
+log = "0.4.27"
+procfs = "0.17.0"
+regex = "1.11.1"
+serde = { version = "1.0.219", features = ["derive"] }
+toml = "0.8.23"
+
+[profile.release]
+overflow-checks = false
+codegen-units = 1
+lto = "fat"
+opt-level = 3
+strip = true
