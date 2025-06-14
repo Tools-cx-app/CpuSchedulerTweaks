@@ -1,0 +1,7 @@
+# id 只能填 字母 数字 半角符号
+id=CpuSchedulerTweaks
+name=CpuSchedulerTweaks
+version=1.6
+versionCode=238
+author=生于生时，亡于亡刻
+description=适用于大部分设备的CPU动态调速器

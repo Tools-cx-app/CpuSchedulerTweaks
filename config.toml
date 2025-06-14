@@ -1,0 +1,69 @@
+osm = "powersave"
+
+binder = false
+debug = false
+
+[cpu_config]
+big = 7
+middle = 4
+small = 0
+
+[powersave.freqs]
+big_cpu = { max = 1800000, min = 500000 }
+middle_cpu = { max = 1600000, min = 500000 }
+small_cpu = { max = 1400000, min = 500000 }
+
+[powersave.governor]
+big_cpu = "schedutil"
+middle_cpu = "schedutil"
+small_cpu = "schedutil"
+
+[powersave.cpuctl]
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
+foreground = { shares = 0, uclamp = { max = 0, min = 0 } }
+
+[balance.freqs]
+big_cpu = { max = 2200000, min = 800000 }
+middle_cpu = { max = 2000000, min = 800000 }
+small_cpu = { max = 1800000, min = 800000 }
+
+[balance.governor]
+big_cpu = "schedutil"
+middle_cpu = "schedutil"
+small_cpu = "schedutil"
+
+[balance.cpuctl]
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
+foreground = { shares = 0, uclamp = { max = 0, min = 0 } }
+
+[performance.freqs]
+big_cpu = { max = 2800000, min = 1200000 }
+middle_cpu = { max = 2500000, min = 1200000 }
+small_cpu = { max = 2200000, min = 1200000 }
+
+[performance.governor]
+big_cpu = "schedutil"
+middle_cpu = "schedutil"
+small_cpu = "schedutil"
+
+[performance.cpuctl]
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
+foreground = { shares = 0, uclamp = { max = 0, min = 0 } }
+
+[fast.freqs]
+big_cpu = { max = 3200000, min = 1500000 }
+middle_cpu = { max = 2800000, min = 1500000 }
+small_cpu = { max = 2500000, min = 1500000 }
+
+[fast.governor]
+big_cpu = "schedutil"
+middle_cpu = "schedutil"
+small_cpu = "schedutil"
+
+[fast.cpuctl]
+top_app = { shares = 0, uclamp = { max = 0, min = 0 } }
+foreground = { shares = 0, uclamp = { max = 0, min = 0 } }
+
+[applist]
+"bin.mt.plus" = "powersave"
+
