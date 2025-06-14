@@ -3,6 +3,10 @@ osm = "powersave"
 binder = false
 debug = false
 
+[io]
+scheduler = "bfq"
+read_ahead = 10
+
 [cpu_config]
 big = 7
 middle = 4
